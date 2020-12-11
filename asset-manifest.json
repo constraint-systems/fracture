@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/fracture/static/css/main.aa22b350.chunk.css",
+    "main.js": "/fracture/static/js/main.caf61766.chunk.js",
+    "main.js.map": "/fracture/static/js/main.caf61766.chunk.js.map",
+    "runtime-main.js": "/fracture/static/js/runtime-main.2f627202.js",
+    "runtime-main.js.map": "/fracture/static/js/runtime-main.2f627202.js.map",
+    "static/js/2.d892e607.chunk.js": "/fracture/static/js/2.d892e607.chunk.js",
+    "static/js/2.d892e607.chunk.js.map": "/fracture/static/js/2.d892e607.chunk.js.map",
+    "static/js/3.20e6104d.chunk.js": "/fracture/static/js/3.20e6104d.chunk.js",
+    "static/js/3.20e6104d.chunk.js.map": "/fracture/static/js/3.20e6104d.chunk.js.map",
+    "index.html": "/fracture/index.html",
+    "static/css/main.aa22b350.chunk.css.map": "/fracture/static/css/main.aa22b350.chunk.css.map",
+    "static/js/2.d892e607.chunk.js.LICENSE.txt": "/fracture/static/js/2.d892e607.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2f627202.js",
+    "static/js/2.d892e607.chunk.js",
+    "static/css/main.aa22b350.chunk.css",
+    "static/js/main.caf61766.chunk.js"
+  ]
+}
