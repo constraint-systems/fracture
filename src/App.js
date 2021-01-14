@@ -67,6 +67,7 @@ function Root() {
   });
   let input_ref = useRef(null);
   let scroll_ref = useRef(null);
+  let bypass_ref = useRef(false);
 
   return (
     <RecoilRoot>
@@ -79,11 +80,23 @@ function Root() {
         />
         <SizeObserver />
         <div style={{ position: "relative", marginLeft: 4, marginTop: 4 }}>
-          <Canvas scroll_ref={scroll_ref} scene_ref={scene_ref} />
+          <Canvas
+            scroll_ref={scroll_ref}
+            scene_ref={scene_ref}
+            bypass_ref={bypass_ref}
+          />
           <Layers />
         </div>
-        <Actions scene_ref={scene_ref} input_ref={input_ref} />
-        <Keyboard scene_ref={scene_ref} input_ref={input_ref} />
+        <Actions
+          scene_ref={scene_ref}
+          input_ref={input_ref}
+          bypass_ref={bypass_ref}
+        />
+        <Keyboard
+          scene_ref={scene_ref}
+          input_ref={input_ref}
+          bypass_ref={bypass_ref}
+        />
       </RecoilUndoRoot>
     </RecoilRoot>
   );
@@ -91,12 +104,21 @@ function Root() {
 
 export default Root;
 
-function Actions({ input_ref, scene_ref }) {
+function Actions({ input_ref, scene_ref, bypass_ref }) {
   let [w, h] = useRecoilValue(aSize);
   return w < mobile ? (
-    <Sidebar mobile={true} scene_ref={scene_ref} input_ref={input_ref} />
+    <Sidebar
+      mobile={true}
+      scene_ref={scene_ref}
+      input_ref={input_ref}
+      bypass_ref={bypass_ref}
+    />
   ) : (
-    <Sidebar scene_ref={scene_ref} input_ref={input_ref} />
+    <Sidebar
+      scene_ref={scene_ref}
+      input_ref={input_ref}
+      bypass_ref={bypass_ref}
+    />
   );
 }
 
@@ -395,7 +417,7 @@ export function domLoadImage(scene, input, addImage, presetImageMap) {
   );
 }
 
-function Canvas({ scene_ref, scroll_ref }) {
+function Canvas({ scene_ref, scroll_ref, bypass_ref }) {
   let gridSize = useRecoilValue(aGridSize);
   let viewports = useRecoilValue(sViewports);
   let cols = useRecoilValue(aCols);
@@ -437,7 +459,7 @@ function Canvas({ scene_ref, scroll_ref }) {
 
       rawSetImageMap([...Array(cols * rows)].map((v) => null));
 
-      setScene();
+      setScene(scene, cols, rows, gridSize, viewports, allCameras);
 
       loadImage(
         scene,
@@ -514,42 +536,9 @@ function Canvas({ scene_ref, scroll_ref }) {
     }
   }, [loaded, imageMap]);
 
-  function setScene() {
-    let scene = scene_ref.current;
-
-    let rawCameras = allCameras.slice();
-    let invertedCameras = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        let index = r * cols + c;
-        let invert_row = rows - 1 - Math.floor(index / cols);
-        let inverted = invert_row * cols + (index % cols);
-        invertedCameras.push(rawCameras[inverted]);
-      }
-    }
-
-    scene.cameras = invertedCameras;
-    scene.gridSize = gridSize;
-    scene.cols = cols;
-    scene.rows = rows;
-    scene.viewports = viewports;
-
-    setProjectionMatrices(scene);
-
-    scene.views = [];
-    scene.view_projections = [];
-    scene.inverse_view_projections = [];
-    for (let i = 0; i < cols * rows; i++) {
-      scene.views.push([]);
-      scene.view_projections.push([]);
-      scene.inverse_view_projections.push([]);
-    }
-    setViewMatrices(scene);
-  }
-
   useEffect(() => {
     if (loaded) {
-      setScene();
+      setScene(scene_ref.current, cols, rows, gridSize, viewports, allCameras);
     }
   }, [loaded, cols, rows, gridSize, viewports, cameras]);
 
@@ -575,6 +564,37 @@ function Canvas({ scene_ref, scroll_ref }) {
       </canvas>
     </div>
   ) : null;
+}
+
+export function setScene(scene, cols, rows, gridSize, viewports, allCameras) {
+  let rawCameras = allCameras.slice();
+  let invertedCameras = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      let index = r * cols + c;
+      let invert_row = rows - 1 - Math.floor(index / cols);
+      let inverted = invert_row * cols + (index % cols);
+      invertedCameras.push(rawCameras[inverted]);
+    }
+  }
+
+  scene.cameras = invertedCameras;
+  scene.gridSize = gridSize;
+  scene.cols = cols;
+  scene.rows = rows;
+  scene.viewports = viewports;
+
+  setProjectionMatrices(scene);
+
+  scene.views = [];
+  scene.view_projections = [];
+  scene.inverse_view_projections = [];
+  for (let i = 0; i < cols * rows; i++) {
+    scene.views.push([]);
+    scene.view_projections.push([]);
+    scene.inverse_view_projections.push([]);
+  }
+  setViewMatrices(scene);
 }
 
 function CanvasCamera({ id, index, scene_ref }) {

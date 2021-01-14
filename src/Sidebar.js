@@ -74,7 +74,7 @@ export function HSpacer() {
   return <div style={{ width: "100%", height: 4 }}></div>;
 }
 
-function Sidebar({ scene_ref, input_ref, mobile }) {
+function Sidebar({ scene_ref, input_ref, mobile, bypass_ref }) {
   let sidebarWidth = useRecoilValue(aSidebarWidth);
   let [mode, setMode] = useRecoilState(aMode);
   let [zoomMode, setZoomMode] = useRecoilState(aZoomMode);
@@ -288,7 +288,7 @@ function Sidebar({ scene_ref, input_ref, mobile }) {
             <Info>Shatter and recombine images using a grid of viewports</Info>
             <HSpacer />
             <Heading>Examples</Heading>
-            <Examples />
+            <Examples scene_ref={scene_ref} />
             <HSpacer />
             <Heading>Select</Heading>
             <div>
