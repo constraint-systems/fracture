@@ -1,7 +1,7 @@
 # Tile
 
 <img
-src='https://raw.githubusercontent.com/constraint-systems/fracture/main/fracture.gif'
+src='https://raw.githubusercontent.com/constraint-systems/fracture/main/public/fracture.gif'
 width="600"/>
 
 Fracture is an experimental image editor. Shatter and recombine images using a grid of viewports.  
