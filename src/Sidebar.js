@@ -499,6 +499,14 @@ function Sidebar({ scene_ref, input_ref, mobile, bypass_ref }) {
             />
             <HSpacer />
             <Tip>Need to scroll the canvas? Hold Ctrl and click and drag.</Tip>
+            <HSpacer />
+            <Heading>More Info</Heading>
+            <HSpacer />
+            <Info>
+              <a href="https://constraint.systems" target="_blank">
+                Constraint Systems
+              </a>
+            </Info>
           </div>
         )}
       </div>

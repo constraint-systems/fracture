@@ -103,6 +103,10 @@ html {
     border-top: solid 1px #666;
     padding-top: 8px;
 }
+.divider {
+    height: 1px;
+    background: #666;
+}
 
 .toggle.active .keyname {
     background: #aaa; 
@@ -121,6 +125,10 @@ html {
 .toggle.active.disabled .keyname, .toggle.disabled .keyname {
     background: #888; 
     color: #555
+}
+
+a {
+    color: inherit;
 }
 
 
